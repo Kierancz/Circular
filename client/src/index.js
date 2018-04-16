@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 import { Panel, Navbar, Button, ControlLabel } from 'react-bootstrap';
-import routes from './routes';
+import getRoutes from './routes';
 import './stylesheets/main.css';
 import configureStore from './redux/configureStore';
 import { saveState } from './redux/localStorage';
@@ -27,7 +27,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 render(
   <Provider store={store}>
-    <Router history={history} routes={routes} />
+    <Router history={history}>{getRoutes(store)}</Router>
   </Provider>,
   document.getElementById('root')
 );

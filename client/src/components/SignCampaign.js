@@ -21,6 +21,7 @@ class SignCampaign extends Component {
   componentWillReceiveProps = nextProps => {
     if (this.props.auth._id !== nextProps.auth._id) {
       this.props.fetchUserSignatures(nextProps.auth._id);
+      // this should be called whenever auth action returns.
     }
   };
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { FacebookShareButton, TwitterShareButton } from 'react-share';
-import fetchCampaignById from '../redux/actions/activeCampaign';
+import fetchCampaignById, { updateStateToCampaignInfo } from '../redux/actions/activeCampaign';
 import Discussion from '../components/Discussion';
 import SignCampaign from '../components/SignCampaign';
 import SignatureList from '../components/SignatureList';
@@ -18,13 +18,13 @@ const MIN_CAMPAIGN_DURATION = 21;
 const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 class CampaignPage extends Component {
   componentDidMount() {
-    this.props.fetchCampaignById(this.props.params.id);
+    // this.props.updateStateToCampaignInfo(this.props.params.id);
     this.props.fetchApartmentsRequest();
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (this.props.params.id !== nextProps.params.id) {
-      nextProps.fetchCampaignById(nextProps.params.id);
+      // nextProps.updateStateToCampaignInfo(nextProps.params.id);
     }
   }
 
@@ -183,6 +183,7 @@ CampaignPage.propTypes = {
   }).isRequired,
   fetchCampaignById: PropTypes.func.isRequired,
   fetchApartmentsRequest: PropTypes.func.isRequired,
+  updateStateToCampaignInfo: PropTypes.func.isRequired,
   params: PropTypes.shape({
     id: PropTypes.string
   }).isRequired
@@ -195,6 +196,7 @@ export default connect(
   }),
   {
     fetchCampaignById,
-    fetchApartmentsRequest
+    fetchApartmentsRequest,
+    updateStateToCampaignInfo
   }
 )(withRouter(CampaignPage));

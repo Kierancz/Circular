@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import withScriptjs from 'react-google-maps/lib/async/withScriptjs';
 import * as _ from 'lodash';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import { connect } from 'react-redux';
 
 class MapCard extends Component {
   render() {
@@ -30,6 +31,19 @@ class MapCard extends Component {
         ))
       )
     );
+
+    /*
+    updateStateToCampaignInfo should be called when:
+      - a campaign marker is clicked on the map (this pushes on the router)
+      - the someone types in a new address ( is this captured by the router)
+      - 'go to your signed campaign' button clicked (this goes through react router)
+
+    + see if I can updateStateToCampaignInfo() in the react router call,
+      - calling into redux actions in the router is not working for some reason
+      -- look into react-router-redux OH WERE ALREADY USING IT
+
+    + also see if the react router call is recalled if the visible component does not change, but the url (param.id) does
+    */
 
     const mapUrl = `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${
       process.env.REACT_APP_GOOGLE_MAPS_KEY
@@ -76,5 +90,10 @@ MapCard.propTypes = {
   apartments: PropTypes.arrayOf(PropTypes.object).isRequired,
   campaignAddress: PropTypes.string.isRequired
 };
+
+const mapStateToProps = state => ({
+  apartments: state.initialSearch.apartments,
+  campaignAddress: state.activeCampaign.campaign.street_address
+});
 
 export default MapCard;
