@@ -1,9 +1,9 @@
 import createApiRequest from '../../utils/createApiRequest';
 
-export function fetchComments(id) {
+export function fetchComments(campaignId) {
   return {
     type: 'FETCH_COMMENTS',
-    promise: createApiRequest(`api/comments/${id}`, 'GET')
+    promise: createApiRequest(`api/comments/${campaignId}`, 'GET')
   };
 }
 
