@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Grid, Row, Col, Button, ListGroup, ControlLabel, ListGroupItem } from 'react-bootstrap';
 import { selectAddress } from '../redux/actions/initialSearch';
-import fetchCampaignById from '../redux/actions/activeCampaign';
 import AutoSuggestInput from '../components/AutoSuggestInput';
 
 class ChooseCampaign extends Component {
@@ -31,7 +30,6 @@ class ChooseCampaign extends Component {
     } else if (!selectedAddress || selectedAddress === 'none') {
       this.props.router.push('/new-campaign/address');
     } else {
-      this.props.fetchCampaignById(selectedAddress.id);
       this.props.router.push(`/campaign/${selectedAddress.id}`);
     }
   }
@@ -223,11 +221,9 @@ ChooseCampaign.propTypes = {
   loaded: PropTypes.bool.isRequired,
   searchedAddress: PropTypes.objectOf(PropTypes.any).isRequired,
   selectedAddress: PropTypes.string.isRequired,
-  fetchCampaignById: PropTypes.func.isRequired,
   router: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
 export default connect(({ initialSearch }) => ({ ...initialSearch }), {
-  selectAddress,
-  fetchCampaignById
+  selectAddress
 })(withRouter(ChooseCampaign));
