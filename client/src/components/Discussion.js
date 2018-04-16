@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Well } from 'react-bootstrap';
-import { fetchComments, postComment } from '../redux/actions/comments';
+import { postComment } from '../redux/actions/comments';
 import Comment from './Comment';
 import PostBox from './PostBox';
 
@@ -13,20 +13,10 @@ class Discussion extends Component {
     this.comments = this.props.comments;
   }
 
-  componentDidMount() {
-    this.props.fetchComments(this.props.campaignID);
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     return (
       nextProps.comments.commentsLoaded === true || nextProps.comments.fetchError !== undefined
     );
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (this.props.campaignID !== nextProps.campaignID) {
-      nextProps.fetchComments(nextProps.campaignID);
-    }
   }
 
   renderMainPostBox() {
@@ -91,14 +81,12 @@ Discussion.propTypes = {
   comments: PropTypes.shape({
     campaignComments: PropTypes.Object
   }).isRequired,
-  campaignID: PropTypes.string.isRequired,
-  fetchComments: PropTypes.func.isRequired
+  campaignID: PropTypes.string.isRequired
 };
 
 export default connect(
   ({ activeCampaign, auth, comments }) => ({ activeCampaign, auth, comments }),
   {
-    fetchComments,
     postComment
   }
 )(Discussion);

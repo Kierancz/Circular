@@ -59,7 +59,7 @@ class PostBox extends Component {
             campaign_id: this.props.campaignID
           });
         }
-        this.props.fetchComments(this.props.campaignID);
+        this.props.fetchComments(this.props.campaignID); // updates the comments after a post so should I make a higher level action to post and refresh so that this component does not have to worry about requesting the state be updated.
         if (this.props.isAReply) {
           this.props.handleCloseReply();
         } else {
