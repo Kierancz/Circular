@@ -3,8 +3,8 @@ const Comment = mongoose.model('Comment');
 const User = mongoose.model('User');
 
 module.exports = app => {
-  app.get('/api/comments/:id', async (req, res) => {
-    const campaign_id = req.params.id;
+  app.get('/api/comments/:campaignId', async (req, res) => {
+    const campaign_id = req.params.campaignId;
 
     try {
       const comments = await Comment.find({ campaignID: campaign_id });
