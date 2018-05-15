@@ -20,23 +20,6 @@ module.exports = app => {
     }
   );
 
-  // Local Auth Route
-  app.get(
-    'auth/local/register',
-    checkPath,
-    passport.authenticate('local', {
-      scope: ['username', 'password']
-    })
-  );
-
-  app.post(
-    '/auth/local/callback',
-    passport.authenticate('local', { failureRedirect: '/error' }),
-    function(req, res) {
-      res.redirect('/success?username=' + req.user.username);
-    }
-  );
-
   // Facebook Auth Routes
   app.get(
     '/auth/facebook',

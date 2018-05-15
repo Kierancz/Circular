@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const cors = require('cors');
 const errorHandler = require('./middlewares/error');
-const models = require('./models/index');
+const localAuthRoutes = require('./routes/localAuthRoutes');
 
 const app = express();
 
@@ -21,6 +21,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/api/auth/local', localAuthRoutes);
 require('./routes/authRoutes')(app);
 require('./routes/campaignRoutes')(app);
 require('./routes/signatureRoutes')(app);
