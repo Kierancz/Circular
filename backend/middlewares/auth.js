@@ -1,7 +1,7 @@
 const db = require('../models');
 const jwt = require('jsonwebtoken');
 
-exports.register = async (req, res, next) => {
+exports.register = async function(req, res, next) {
   try {
     //create a user
     const user = await db.User.create(req.body);
@@ -13,9 +13,9 @@ exports.register = async (req, res, next) => {
         id,
         email
       },
-      process.env.SECRET_KEY_LOCAL_AUTH
+      process.env.SECRET_KEY
     );
-    return res.staus(200).json({
+    return res.status(200).json({
       id,
       email,
       token

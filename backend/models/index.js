@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-require('dotenv').config();
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
 require('./User');
@@ -23,7 +22,6 @@ if (process.env.NODE_ENV === 'test') {
       console.error(error);
     } else {
       //callback when server has started successfully
-
       console.log('HOST ' + config.host);
       console.log('PORT ' + config.port);
 
@@ -34,7 +32,7 @@ if (process.env.NODE_ENV === 'test') {
 } else {
   mongoose.connect(keys.mongoURI, {
     keepAlive: true,
-    uneMongoClient: true
+    useMongoClient: true
   });
 }
 

@@ -11,7 +11,7 @@ const userSchema = new Schema({
     email: {
       type: String,
       required: true,
-      uniqure: true
+      unique: true
     },
     password: {
       type: String,
@@ -19,10 +19,11 @@ const userSchema = new Schema({
     }
   }
 });
+
 // adding hook on userSchema, pre-save to hash and salt password
-userSchema.pre('save', async next => {
+userSchema.pre('save', async function(next) {
   try {
-    // check if the passwork has been modified
+    // check if the password has been modified
     if (!this.isModified('password')) {
       return next();
     }
@@ -33,11 +34,11 @@ userSchema.pre('save', async next => {
     return next();
   } catch (err) {
     // send error to error middleware
-    return next();
+    return next(err);
   }
 });
 
-userSchema.method.comparePassword = async (candidatePassword, next) => {
+userSchema.method.comparePassword = async function(candidatePassword, next) {
   try {
     //compare hashed password to hashed password in database
     const isMatch = await bcrypt.compare(candidatePassword, this.password);

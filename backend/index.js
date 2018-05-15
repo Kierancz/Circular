@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+const dotenv = require('dotenv').config();
 const express = require('express');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -49,3 +50,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is starting on port: ${PORT}`);
 });
+
+console.log(dotenv.parsed);
