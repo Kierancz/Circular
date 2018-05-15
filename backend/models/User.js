@@ -5,7 +5,9 @@ const userSchema = new Schema({
   googleID: String,
   name: String,
   email: String,
-  facebookID: String
+  facebookID: String,
+  username: String,
+  password: String
 });
 
-mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);

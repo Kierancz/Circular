@@ -1,43 +1,16 @@
 /* eslint-disable no-console */
 const express = require('express');
-const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
-require('./models/User');
-require('./models/Campaign');
-require('./models/Signature');
-require('./models/Comment');
-require('./models/WasteProvider');
-
-require('./services/passport');
-
-if (process.env.NODE_ENV === 'test') {
-  const MongoInMemory = require('mongo-in-memory');
-
-  var port = 8000;
-  var mongoServerInstance = new MongoInMemory(port); //DEFAULT PORT is 27017
-
-  mongoServerInstance.start((error, config) => {
-    if (error) {
-      console.error(error);
-    } else {
-      //callback when server has started successfully
-
-      console.log('HOST ' + config.host);
-      console.log('PORT ' + config.port);
-
-      var mongouri = mongoServerInstance.getMongouri('myDatabaseName');
-      mongoose.connect(mongouri);
-    }
-  });
-} else {
-  mongoose.connect(keys.mongoURI);
-}
+const cors = require('cors');
+const errorHandler = require('./middlewares/error');
+const models = require('./models/index');
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(
   cookieSession({
@@ -63,5 +36,15 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Server is starting on port: ${PORT}`);
+});
