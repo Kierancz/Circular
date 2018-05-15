@@ -21,7 +21,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/auth/local', localAuthRoutes);
+app.use('/api/auth/', localAuthRoutes);
 require('./routes/authRoutes')(app);
 require('./routes/campaignRoutes')(app);
 require('./routes/signatureRoutes')(app);

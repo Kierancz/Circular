@@ -37,3 +37,5 @@ if (process.env.NODE_ENV === 'test') {
     uneMongoClient: true
   });
 }
+
+module.exports.User = require('./User');
