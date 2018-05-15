@@ -1,43 +1,110 @@
 $card-border-round: 5px;
 
 .card {
-    border-radius: $card-border-round;
+    border-radius: 10px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
     background-color: #ffffff;
-    margin-bottom: 30px;
+    margin: 1em auto;
+    padding: 3em auto;
+    color: $main-blue;
+    text-align: center;
+    display: block;
 
-    .card-map {
-        padding: 1em;
-        background: $light-gray;
+    form {
+        padding-bottom: 1em;
+        .form-control {
+            font-size: 13px;
+        }
     }
-    .header {
-        padding: 15px 15px 0;
-        color: #333;
-        font-weight: 300;
-        font-size: 22px;
-        .title {
+
+    .form-group {
+        margin: 1em auto;
+        label {
             color: $main-blue;
-            padding-bottom: 15px;
         }
     }
 
-    .filter {
-        position: absolute;
-        z-index: 2;
-        background-color: rgba(0, 0, 0, 0.68);
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-    }
-
-    .map {
-        height: 280px;
-        border-radius: $card-border-round;
-
-        &.map-big {
-            height: 420px;
+    
+    .input-group, .input-group:focus {
+        &:hover  {
+            .input-group-addon, .input-group-addon:focus {
+                border-color: $maingreen;
+                border-right: none;
+                background-color: $maingreen;
+                color: $mainwhite;
+                transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+                
+            }
+            .form-control, .form-control:focus {
+                border-color: $maingreen;
+                border-left: none;
+                box-shadow: none;
+                -webkit-box-shadow: none;
+            }
         }
     }
+
+    .isValid {
+        .input-group-addon {
+            border-color: $maingreen;
+            border-right: none;
+            background-color: $maingreen;
+            color: $mainwhite;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            
+        }
+        .form-control {
+            border-color: $maingreen;
+            border-left: none;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+    }
+
+    .isNotValid {
+        .input-group-addon {
+            border-color: lighten(red, 10%);
+            border-right: none;
+            background-color: lighten(red, 10%);
+            color: $mainwhite;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            
+        }
+        .form-control {
+            border-color: red;
+            border-left: none;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+        .card-help-block {
+            color: red; 
+            font-size: 12px;
+        }
+    }
+    
+    
+
+    .form-control:focus {
+        border-color: $maingreen;
+        border-left: none;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
+    .card-top {
+        margin-top: 2em;
+        outline: none;
+    }
+
+   
+    button {
+        margin-top: 1.5em auto;
+        text-shadow: none;
+        &:hover {
+            background-color: darken($maingreen, 5%);
+        }
+        &:focus {
+            background-color: darken($maingreen, 10%);
+        }
+   }
 }

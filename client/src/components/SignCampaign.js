@@ -6,6 +6,7 @@ import GoogleButton from 'react-google-button';
 import { Row, Col, FormGroup, Button, ControlLabel, FormControl, Alert } from 'react-bootstrap';
 import Checkbox from './SignatureCheckbox';
 import ToolList from './ToolList';
+import Card from './Card';
 import {
   addSignatureToCampaign,
   removeSignatureFromCampaign,
@@ -99,6 +100,8 @@ class SignCampaign extends Component {
               <a className="login-button-signature" href="/auth/google">
                 <GoogleButton className="btn-google btn-login" />
               </a>
+              <h5 className="content text-center">OR</h5>
+              <Card />
             </div>
           )}
       </div>
