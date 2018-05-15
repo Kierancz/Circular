@@ -6,6 +6,7 @@ require('./Signature');
 require('./Comment');
 require('./WasteProvider');
 require('../services/passport');
+
 mongoose.set('debug', true);
 mongoose.Promise = global.Promise;
 
