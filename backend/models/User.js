@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new Schema({
   googleID: String,
@@ -19,6 +20,7 @@ const userSchema = new Schema({
     }
   }
 });
+userSchema.plugin(uniqueValidator);
 
 // adding hook on userSchema, pre-save to hash and salt password
 userSchema.pre('save', async function(next) {

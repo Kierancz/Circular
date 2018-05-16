@@ -2754,7 +2754,11 @@ lodash.defaults@^3.1.2:
     lodash.assign "^3.0.0"
     lodash.restparam "^3.0.0"
 
-lodash.get@4.4.2:
+lodash.foreach@^4.1.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.foreach/-/lodash.foreach-4.5.0.tgz#1a6a35eace401280c7f06dddec35165ab27e3e53"
+
+lodash.get@4.4.2, lodash.get@^4.0.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
 
@@ -3078,6 +3082,13 @@ mongodb@2.2.33, mongodb@^2.2.1:
 mongoose-geojson-schema@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/mongoose-geojson-schema/-/mongoose-geojson-schema-2.1.2.tgz#d53b532a690b2000e641856f673d9c0ee8d2ce91"
+
+mongoose-unique-validator@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/mongoose-unique-validator/-/mongoose-unique-validator-2.0.1.tgz#34c64f097cb5e1c61f822116b0a5b07667e6de92"
+  dependencies:
+    lodash.foreach "^4.1.0"
+    lodash.get "^4.0.2"
 
 mongoose@^4.12.3:
   version "4.13.0"

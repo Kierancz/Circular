@@ -45,6 +45,7 @@
     "jsonwebtoken": "^8.2.1",
     "mongoose": "^4.12.3",
     "mongoose-geojson-schema": "^2.1.2",
+    "mongoose-unique-validator": "^2.0.1",
     "nodemon": "^1.12.1",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",

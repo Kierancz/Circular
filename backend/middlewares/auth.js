@@ -4,8 +4,16 @@ const jwt = require('jsonwebtoken');
 
 exports.register = async function(req, res, next) {
   try {
+    // const userEmail = Object.values(req.body)[0];
+    // const checkForExistingEmail = await db.User.findOne({ 'local.email': userEmail });
+
+    // check dups on useremail
     //create a user
-    const user = await db.User.create(req.body);
+    const user = await db.User.create(req.body, function(err) {
+      if (err) {
+        return next(err.errors['local.email'].kind);
+      }
+    });
     // destructure req.body
     const { _id, local: { email } } = user;
     console.log('User.js: ID: ', _id, '   email: ', email);
@@ -24,7 +32,7 @@ exports.register = async function(req, res, next) {
     });
   } catch (err) {
     // if validation error
-    if (err.code === 11000) {
+    if (err.code === 11000 || err === 'unique') {
       // if occupied email send error
       err.message = 'Sorry, that email is taken';
     }
