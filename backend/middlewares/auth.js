@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const db = require('../models');
 const jwt = require('jsonwebtoken');
 
@@ -6,23 +7,23 @@ exports.register = async function(req, res, next) {
     //create a user
     const user = await db.User.create(req.body);
     // destructure req.body
-    const { id, email } = user.local;
+    const { _id, local: { email } } = user;
+    console.log('User.js: ID: ', _id, '   email: ', email);
     //create a token (sign the token)
     const token = jwt.sign(
       {
-        id,
+        _id,
         email
       },
       process.env.SECRET_KEY
     );
     return res.status(200).json({
-      id,
+      _id,
       email,
       token
     });
   } catch (err) {
-    // see what kind of error
-    // if validation error \/
+    // if validation error
     if (err.code === 11000) {
       // if occupied email send error
       err.message = 'Sorry, that email is taken';

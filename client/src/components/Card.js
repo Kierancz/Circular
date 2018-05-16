@@ -118,7 +118,7 @@ class Card extends Component {
     return (
       <Grid>
         <Row>
-          <Col xs={12} className="card">
+          <Col xs={12} className="auth-card">
             <form onSubmit={this.handleSubmit}>
               <FormGroup
                 controlId="formEmailValidation"
