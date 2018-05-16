@@ -32,7 +32,7 @@ exports.register = async function(req, res, next) {
     });
   } catch (err) {
     // if validation error
-    if (err.code === 11000 || err === 'unique') {
+    if (err.code === 11000) {
       // if occupied email send error
       err.message = 'Sorry, that email is taken';
     }
