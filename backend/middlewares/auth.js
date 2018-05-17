@@ -4,9 +4,6 @@ const jwt = require('jsonwebtoken');
 
 exports.register = async function(req, res, next) {
   try {
-    // const userEmail = Object.values(req.body)[0];
-    // const checkForExistingEmail = await db.User.findOne({ 'local.email': userEmail });
-
     // check dups on useremail
     //create a user
     const user = await db.User.create(req.body, function(err) {
