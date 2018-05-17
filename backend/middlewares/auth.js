@@ -1,84 +1,57 @@
-/* eslint-disable no-console */
-const db = require('../models');
+require('dotenv').load();
 const jwt = require('jsonwebtoken');
 
-// NEW USER REGISTRATION FUNCTION
-exports.register = async function(req, res, next) {
+// ********
+// jwt doesn't yet support async so using callbacks
+// ********
+
+// make sure use is logged in - Authentication
+exports.loginRequired = function(req, res, next) {
   try {
-    // check dups on user email
-    //create a user
-    const user = await db.User.create(req.body, function(err) {
-      if (err) {
-        return next(err.errors['local.email'].kind);
+    console.log('req.body ', req.query);
+    const token = req.headers.authorization.spilt(' ')[1]; // Bearer_[token]
+    jwt.verify(token, process.env.SECRET_KEY, function(err, decodedPayload) {
+      if (decodedPayload) {
+        return next();
+      } else {
+        return next({
+          status: 401,
+          message: 'Please log in first'
+        });
       }
     });
-    // destructure req.body
-    const { _id, local: { email } } = user;
-    console.log('User.js: ID: ', _id, '   email: ', email);
-    //create a token (sign the token)
-    const token = jwt.sign(
-      {
-        _id,
-        email
-      },
-      process.env.SECRET_KEY
-    );
-    return res.status(200).json({
-      _id,
-      email,
-      token
-    });
   } catch (err) {
-    // if validation error
-    if (err.code === 11000) {
-      // if occupied email send error
-      err.message = 'Sorry, that email is taken';
-    }
-    // otherwise, generic error
     return next({
-      status: 400,
-      message: err.message
+      status: 401,
+      message: 'Please log in first'
     });
   }
 };
 
-// USER SIGNIN FUNCTION
-exports.signin = async function(req, res, next) {
+// /api/comments/:id
+// verify this http
+
+// make sure we get the correct user - Authorization
+// needs to have signed the campaign for which they are commenting
+exports.ensureCorrectUser = function(req, res, next) {
   try {
-    // find a user
-    const user = await db.User.findOne({
-      ['local.email']: req.body['local.email']
+    // does the commenters ID exist in the array of signatures on the campaign
+    const token = req.headers.authorization.split(' ')[1];
+    jwt.verify(token, process.env.SECRET_KEY, function(err, decodedPayload) {
+      // check if decodedPayload matches the id in the http post
+      if (decodedPayload && decodedPayload.id === req.params.id) {
+        return next();
+      } else {
+        return next({
+          status: 401,
+          massage: 'You are not authorized for this action'
+        });
+      }
     });
-    const { _id, local: { email } } = user;
-    // does the passwork work
-    const isMatch = await user.comparePassword(req.body['local.password']);
-    console.log('isMatch ', isMatch);
-    if (isMatch) {
-      // if match build token
-      const token = jwt.sign(
-        {
-          _id,
-          email
-        },
-        // sign with secret key
-        process.env.SECRET_KEY
-      );
-      return res.status(200).json({
-        _id,
-        email,
-        token
-      });
-    } else {
-      // if password doesn't match
-      return next({
-        status: 400,
-        message: 'Invalid email/password combination'
-      });
-    }
   } catch (err) {
     return next({
-      status: 400,
-      message: 'Invalid email/password combination'
+      status: 401,
+      message: 'Please log in first'
     });
   }
 };
