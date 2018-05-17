@@ -16,7 +16,8 @@
       "concurrently \"yarn start\" \"serve -s client/build -p 3000\"",
     "ci:test": "cypress run -s cypress/integration/simple_spec.js",
     "lint": "eslint .",
-    "dev": "concurrently \"yarn server\" \"yarn client\"",
+    "dev":
+      "cross-env NODE_ENV=dev concurrently \"yarn server\" \"yarn client\"",
     "test-dev": "cross-env NODE_ENV=test yarn dev",
     "client-install": "(cd ./client && yarn install)",
     "client-build": "(cd ./client && yarn run build)",
