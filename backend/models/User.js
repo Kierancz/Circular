@@ -41,14 +41,13 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-userSchema.method.comparePassword = async function(candidatePassword, next) {
+userSchema.methods.comparePassword = async function(candidatePassword, next) {
   try {
     //compare hashed password to hashed password in database
     const isMatch = await bcrypt.compare(
       candidatePassword,
       this.local.password
     );
-    console.log('User.js    isMatch?:', isMatch);
     return isMatch;
   } catch (err) {
     // if error, send to errorHandler
