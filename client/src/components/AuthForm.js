@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Grid,
   Row,
@@ -11,6 +11,7 @@ import {
   InputGroup,
   HelpBlock
 } from 'react-bootstrap';
+import { authUser } from '../redux/actions/authorization';
 
 const DEFAULT_STATE = {
   email: {
@@ -33,11 +34,12 @@ const DEFAULT_STATE = {
   }
 };
 
-class Card extends Component {
+class AuthForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...DEFAULT_STATE
+      ...DEFAULT_STATE,
+      isRegister: true
     };
   }
 
@@ -107,14 +109,23 @@ class Card extends Component {
     });
   };
 
-  handleSubmit = e => {
-    alert(`Email was submitted: ${this.state.email} Password: ${this.state.password}`);
-    e.preventDefault();
+  // handleSubmit = e => {
+  //   e.preventDefault();
+  //   // which type of function should we make signup / register?
+  //   const authType = this.props.register ? 'register' : 'signin';
+  //   this.props.onAuth(authType, this.state).then(() => {
+  //     console.log('Logged In');
+  //   });
+  // };
+
+  handleAuthStateToggle = () => {
+    this.setState(prevState => ({
+      isRegister: !prevState.isRegister
+    }));
   };
 
   render() {
-    const { email, passwordOne, passwordTwo } = this.state;
-
+    const { email, passwordOne, passwordTwo, isRegister } = this.state;
     return (
       <Grid>
         <Row>
@@ -168,41 +179,50 @@ class Card extends Component {
                   <HelpBlock className="card-help-block">{passwordOne.error}</HelpBlock>
                 )}
               </FormGroup>
-              <FormGroup
-                controlId="formPasswordTwoValidation"
-                className={
-                  (passwordTwo.isValid && 'isValid') ||
-                  (passwordTwo.isValid === false && 'isNotValid') ||
-                  ''
-                }
-              >
-                <ControlLabel>Verify Password</ControlLabel>
-                <InputGroup>
-                  <InputGroup.Addon>
-                    <Glyphicon glyph="lock" />
-                  </InputGroup.Addon>
-                  <FormControl
-                    type="text"
-                    name="passwordTwo"
-                    onChange={this.handlePasswordTwoChange}
-                    value={this.state.passwordTwo.value}
-                  />
-                </InputGroup>
-                <FormControl.Feedback />
-                {passwordTwo.error && (
-                  <HelpBlock className="card-help-block">{passwordTwo.error}</HelpBlock>
-                )}
-              </FormGroup>
-              {email.isValid &&
+              {isRegister && (
+                <FormGroup
+                  controlId="formPasswordTwoValidation"
+                  className={
+                    (passwordTwo.isValid && 'isValid') ||
+                    (passwordTwo.isValid === false && 'isNotValid') ||
+                    ''
+                  }
+                >
+                  <ControlLabel>Verify Password</ControlLabel>
+                  <InputGroup>
+                    <InputGroup.Addon>
+                      <Glyphicon glyph="lock" />
+                    </InputGroup.Addon>
+                    <FormControl
+                      type="text"
+                      name="passwordTwo"
+                      onChange={this.handlePasswordTwoChange}
+                      value={this.state.passwordTwo.value}
+                    />
+                  </InputGroup>
+                  <FormControl.Feedback />
+                  {passwordTwo.error && (
+                    <HelpBlock className="card-help-block">{passwordTwo.error}</HelpBlock>
+                  )}
+                </FormGroup>
+              )}
+              {!isRegister && (
+                <Button className="remove-default btn btn-primary" type="submit">
+                  Log In
+                </Button>
+              )}
+              {isRegister &&
+                email.isValid &&
                 passwordOne.isValid &&
                 passwordTwo.isValid && (
                   <Button className="remove-default btn btn-primary" type="submit">
                     Register
                   </Button>
                 )}
-
-              <h5> Already Have an Account? </h5>
             </form>
+            <button className="auth-button" onClick={this.handleAuthStateToggle}>
+              {this.state.isRegister ? 'Already have an account?' : 'Need to resgister?'}
+            </button>
           </Col>
         </Row>
       </Grid>
@@ -210,4 +230,4 @@ class Card extends Component {
   }
 }
 
-export default Card;
+export default AuthForm;
