@@ -11,7 +11,11 @@ export default function createApiRequest(url, method, data) {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => resolve(response))
+      .then(response => {
+        console.log(response);
+        resolve(response);
+      })
+      // responseObj { response: { error: {data} }
       .catch(err => reject(err.response));
   });
 }

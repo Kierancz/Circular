@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   Grid,
   Row,
@@ -11,7 +12,7 @@ import {
   InputGroup,
   HelpBlock
 } from 'react-bootstrap';
-import { authUser } from '../redux/actions/authorization';
+import { signinUser, registerUser } from '../redux/actions/authorization';
 
 const DEFAULT_STATE = {
   email: {
@@ -104,19 +105,26 @@ class AuthForm extends Component {
       isValid = false;
       error = "hmmm this doesn't look like an email to us";
     }
-    this.setState({
-      email: { ...email, value: email, isValid, error }
+    this.setState(prevState => {
+      const { value, isValid: prevIsValida, ...restOfEmail } = prevState.email;
+      return { email: { value: email, isValid, error, ...restOfEmail } };
     });
   };
 
-  // handleSubmit = e => {
-  //   e.preventDefault();
-  //   // which type of function should we make signup / register?
-  //   const authType = this.props.register ? 'register' : 'signin';
-  //   this.props.onAuth(authType, this.state).then(() => {
-  //     console.log('Logged In');
-  //   });
-  // };
+  handleSubmit = e => {
+    e.preventDefault();
+    const userData = {
+      'local.email': this.state.email.value,
+      'local.password': this.state.passwordOne.value
+    };
+    const authType = this.state.isRegister ? 'register' : 'signin';
+    if (authType === 'register') {
+      registerUser(authType, userData);
+    } else {
+      signinUser(authType, userData);
+    }
+    // which type of function should we make register / signin?
+  };
 
   handleAuthStateToggle = () => {
     this.setState(prevState => ({
@@ -207,7 +215,11 @@ class AuthForm extends Component {
                 </FormGroup>
               )}
               {!isRegister && (
-                <Button className="remove-default btn btn-primary" type="submit">
+                <Button
+                  onClick={this.handleSubmit}
+                  className="remove-default btn btn-primary"
+                  type="submit"
+                >
                   Log In
                 </Button>
               )}
@@ -221,7 +233,7 @@ class AuthForm extends Component {
                 )}
             </form>
             <button className="auth-button" onClick={this.handleAuthStateToggle}>
-              {this.state.isRegister ? 'Already have an account?' : 'Need to resgister?'}
+              {this.state.isRegister ? 'Already have an account?' : 'Need to register?'}
             </button>
           </Col>
         </Row>
@@ -230,4 +242,8 @@ class AuthForm extends Component {
   }
 }
 
-export default AuthForm;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { signinUser, registerUser })(AuthForm);

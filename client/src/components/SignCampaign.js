@@ -6,7 +6,7 @@ import GoogleButton from 'react-google-button';
 import { Row, Col, FormGroup, Button, ControlLabel, FormControl, Alert } from 'react-bootstrap';
 import Checkbox from './SignatureCheckbox';
 import ToolList from './ToolList';
-import Card from './Card';
+import AuthForm from './AuthForm';
 import {
   addSignatureToCampaign,
   removeSignatureFromCampaign,
@@ -50,9 +50,7 @@ class SignCampaign extends Component {
 
   handleRemoveSignature = async formSubmitEvent => {
     formSubmitEvent.preventDefault();
-
     const { _userID, _campaignID, _id } = this.props.userSignatures;
-
     await this.props.removeSignatureFromCampaign(_userID, _campaignID, _id);
   };
 
@@ -101,7 +99,7 @@ class SignCampaign extends Component {
                 <GoogleButton className="btn-google btn-login" />
               </a>
               <h5 className="content text-center">OR</h5>
-              <Card />
+              <AuthForm />
             </div>
           )}
       </div>

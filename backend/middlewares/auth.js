@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 // make sure use is logged in - Authentication
 exports.loginRequired = function(req, res, next) {
   try {
-    console.log('req.body ', req.query);
     const token = req.headers.authorization.spilt(' ')[1]; // Bearer_[token]
     jwt.verify(token, process.env.SECRET_KEY, function(err, decodedPayload) {
       if (decodedPayload) {
